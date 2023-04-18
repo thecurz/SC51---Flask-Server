@@ -17,11 +17,11 @@ db = mysql.connector.connect(
 cur = db.cursor()
 
 @app.route('/')
-def index(debug=True):
+def index():
     return 'index'
 
 
-@app.route('api/GET')
+@app.route('/api/GET')
 def query():
     cur.execute("SELECT * FROM platillo")
     rows = cur.fetchall()
@@ -48,4 +48,4 @@ def post():
 '''
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)
