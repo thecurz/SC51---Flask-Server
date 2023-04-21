@@ -1,0 +1,238 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #353030;
+
+}
+
+.app {
+  display: flex;
+  flex-direction: column;
+}
+
+/*NAV*/
+/*NAV*/
+/*NAV*/
+
+
+.navbar {
+  display: flex;
+  height: 6.5vh;
+  justify-content: space-around;
+  align-items: center;
+  background-color: #353030;
+  color: white;
+  padding: 1rem;
+}
+
+.navbar-logo {
+  display: flex;
+  align-items: center;
+  min-width: 10%;
+
+}
+
+.navbar-logo img {
+  max-height: 40px;
+  /* Adjust this value based on your desired logo height */
+  width: auto;
+}
+
+.navbar-logo span {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  color: #ED8A0D;
+  margin: 0 0 0 1rem;
+}
+
+.navbar-menu {
+  list-style: none;
+  display: flex;
+  gap: 1rem;
+}
+
+.navbar-menu li a {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  color: #ED8A0D;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.navbar-menu li a:hover {
+  color: #ccc;
+}
+
+.navbar-button {
+  max-width: 30%;
+  min-width: 10%;
+  color: white;
+  transition: color 0.2s;
+  font-weight: 800;
+  width: auto;
+  height: 2.5rem;
+  left: 1256px;
+  top: 23px;
+  border: none;
+  font-family: 'Montserrat';
+  font-style: normal;
+  background: #ED8A0D;
+  border-radius: 120px;
+}
+
+.navbar-button:hover {
+  color: #ccc;
+  cursor: pointer;
+}
+
+/*HERO*/
+/*HERO*/
+/*HERO*/
+.hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.hero-img {
+  background-image: url("./assets/hero.jpg");
+  background-size: cover;
+  background-position: center;
+  height: 55vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+}
+
+.hero-button {
+  margin-top: 6.5vh;
+  color: white;
+  transition: color 0.2s;
+  width: 16vw;
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 800;
+  font-size: 1.5rem;
+  background: #ED8A0D;
+  border-radius: 120px;
+  border: none;
+  height: 2.5rem;
+}
+
+.hero-button:hover {
+  color: #ccc;
+  cursor: pointer;
+}
+
+.sale,
+.reviews {
+  padding: 2rem;
+  text-align: center;
+}
+
+.footer {
+  background-color: #333;
+  color: white;
+  padding: 1rem;
+  text-align: center;
+}
+
+
+/*CSS specific for /menu*/
+/*CSS specific for /menu*/
+/*CSS specific for /menu*/
+
+.plate-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.plates {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+}
+
+.plate {
+  background-color: #f5f5f5;
+  border-radius: 4px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  flex: 1;
+  min-width: 300px;
+}
+
+.plate-title {
+  margin-bottom: 0.5rem;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.plate-description {
+  margin-bottom: 1rem;
+  font-size: 1rem;
+  color: #666;
+}
+
+.plate-category {
+  font-size: 0.9rem;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 0.5rem;
+}
+
+.plate-price {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #333;
+}
+
+
+/*CSS specific for /admin*/
+/*CSS specific for /admin*/
+/*CSS specific for /admin*/
+
+.admin-container {
+  max-width: 500px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.admin-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.admin-form label {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+}
+
+.admin-form button {
+  background-color: #4caf50;
+  border: none;
+  color: white;
+  padding: 12px 24px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.admin-form button:hover {
+  background-color: #45a049;
+}
+
+.error-message {
+  color: red;
+  margin-top: 10px;
+}

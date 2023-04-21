@@ -1,2 +1,4 @@
 /db.yaml
 venv
+client/src/dev/
+client/node_modules
