@@ -64,6 +64,75 @@ export default function Admin() {
         </div>);
 }
 function AdminMenu() {
-    //TODO: Implement the menu for posting and updating a plate
-    return <div>Admin menu for posting and updating a plate</div>;
+    const [categoria, setCategoria] = useState('');
+    const [descripcion, setDescripcion] = useState('');
+    const [nombre, setNombre] = useState('');
+    const [precio, setPrecio] = useState('');
+    const [approved, setApproved] = useState(false);
+    const [errorMessage, setErrorMessage] = useState("");
+
+    const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        e.preventDefault();
+        try {
+            //TODO: change url
+            const response = await fetch(API_URL + '/POST/platillo', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ categoria, descripcion, nombre, precio }),
+            });
+
+            if (response.status === 200) {
+                setApproved(true);
+                setErrorMessage("");
+            } else {
+                setApproved(false);
+                setErrorMessage('Denied');
+            }
+        } catch (error) {
+            setErrorMessage('Error occurred while posting platillos.');
+        }
+    };
+
+    return (
+        <>
+            <form>
+                <div>
+                    <label htmlFor="categoria">Categoría:</label>
+                    <input
+                        type="text"
+                        id="categoria"
+                        value={categoria}
+                        onChange={(e) => setCategoria(e.target.value)}
+                    />
+                </div>
+                <div>
+                    <label htmlFor="descripcion">Descripción:</label>
+                    <textarea
+                        id="descripcion"
+                        value={descripcion}
+                        onChange={(e) => setDescripcion(e.target.value)}
+                    />
+                </div>
+                <div>
+                    <label htmlFor="nombre">Nombre:</label>
+                    <input
+                        type="text"
+                        id="nombre"
+                        value={nombre}
+                        onChange={(e) => setNombre(e.target.value)}
+                    />
+                </div>
+                <div>
+                    <label htmlFor="precio">Precio:</label>
+                    <input
+                        type="text"
+                        id="precio"
+                        value={precio}
+                        onChange={(e) => setPrecio(e.target.value)}
+                    />
+                </div>
+                <button type="submit" onClick={handleSubmit}>Enviar</button>
+            </form>
+            {approved}{errorMessage}</>
+    );
 }

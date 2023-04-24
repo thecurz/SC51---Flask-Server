@@ -10,7 +10,7 @@ export default function Menu() {
 
 const fetchData = async () => {
     //TODO: change url for production
-    const data = await fetch(API_URL + "/GET").then(res => res.json());
+    const data = await fetch(API_URL + "/GET/platillo").then(res => res.json());
     return data;
 }
 

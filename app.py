@@ -20,17 +20,43 @@ db = mysql.connector.connect(
 cur = db.cursor()
 
 
+def validateNonVoidInput(input):
+    if (input != "" and input != " "):
+        return True
+    return False
+
 # API ROUTES
 # TODO: set cors so only local connections can access
 
 
-@app.route('/api/GET')
-def query():
+@app.route('/', defaults={'path': ''})
+@app.route('/<string:path>')
+def catch_all(path):
+    return send_from_directory(app.static_folder, 'index.html')
+
+
+@app.route('/api/GET/platillo', methods=['GET'])
+def get_platillos():
     cur.execute("SELECT * FROM platillo")
     rows = cur.fetchall()
     column_names = [desc[0] for desc in cur.description]
     result = [dict(zip(column_names, row)) for row in rows]
     return jsonify(result)
+
+
+@app.route('/api/POST/platillo', methods=['POST'])
+def post_platillos():
+    data = request.get_json()
+    categoria = data.get('categoria')
+    descripcion = data.get('descripcion')
+    nombre = data.get('nombre')
+    precio = data.get('precio')
+    print(categoria, descripcion, nombre, precio)
+    if (validateNonVoidInput(categoria) and validateNonVoidInput(descripcion) and validateNonVoidInput(nombre) and validateNonVoidInput(precio)):
+        cur.execute("INSERT INTO platillo (categoria, descripcion, nombre, precio)VALUES ({c}, {d}, {n}, {p})".format(
+            c=categoria, d=descripcion, n=nombre, p=precio))
+        return jsonify({'status': 'success'}), 200
+    return jsonify({'status': 'Incorrect input'}), 401
 
 
 @app.route('/api/admin/login', methods=['POST'])
@@ -44,33 +70,7 @@ def admin_login():
         return jsonify({'status': 'success'}), 200
     else:
         return jsonify({'status': 'failure'}), 401
-# UI Routes
 
-
-@app.route('/', defaults={'path': ''})
-@app.route('/<path:path>')
-def catch_all(path):
-    if request.path.startswith('/api/'):
-        return 'URL not found', 404
-    else:
-        return send_from_directory(app.static_folder, 'index.html')
-
-
-'''
-@app.route('/api/post/', methods=['GET', 'POST'])
-def post():
-    body = request.form
-    nombre = body['nombre']
-    descripcion = body['descripcion']
-    precio = body['precio']
-    categoria = body['categoria']
-
-    cur.execute(
-        "INSERT INTO platillo(nombre, descripcion, precio, categoria) VALUES(%s, %s, %s, %s)", ('test', 'blah blah', 13, 'uno'))
-    mysql.connection.commit()
-    cur.close()
-    return 'success'
-'''
 
 if __name__ == '__main__':
     app.run(debug=True)
