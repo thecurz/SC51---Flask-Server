@@ -1,0 +1,5 @@
+mysql_host: '54.243.4.6'
+mysql_user: 'remote'
+mysql_password: 'password1331#'
+mysql_db: 'restaurante'
+

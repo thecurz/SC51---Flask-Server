@@ -10,7 +10,7 @@ db_data = yaml.load(open('db.yaml'), Loader=yaml.SafeLoader)
 static_dir = os.path.abspath('client/dist')
 app = Flask(__name__, static_folder=static_dir, static_url_path='/')
 # TODO: Change cors permissions before deploying
-CORS(app, resources={r'/api/*': {'origins': r'http://127.0.0.1:5173/*'}})
+CORS(app)
 db = mysql.connector.connect(
     host=db_data['mysql_host'],
     user=db_data['mysql_user'],
@@ -43,6 +43,22 @@ def get_platillos():
     result = [dict(zip(column_names, row)) for row in rows]
     return jsonify(result)
 
+@app.route('/api/GET/cliente', methods=['GET'])
+def get_clientes():
+    cur.execute("SELECT * FROM cliente")
+    rows = cur.fetchall()
+    column_names = [desc[0] for desc in cur.description]
+    result = [dict(zip(column_names, row)) for row in rows]
+    return jsonify(result)
+
+
+@app.route('/api/GET/pedido', methods=['GET'])
+def get_pedidos():
+    cur.execute("SELECT * FROM pedidos")
+    rows = cur.fetchall()
+    column_names = [desc[0] for desc in cur.description]
+    result = [dict(zip(column_names, row)) for row in rows]
+    return jsonify(result)
 
 @app.route('/api/POST/platillo', methods=['POST'])
 def post_platillos():
@@ -53,11 +69,38 @@ def post_platillos():
     precio = data.get('precio')
     print(categoria, descripcion, nombre, precio)
     if (validateNonVoidInput(categoria) and validateNonVoidInput(descripcion) and validateNonVoidInput(nombre) and validateNonVoidInput(precio)):
-        cur.execute("INSERT INTO platillo (categoria, descripcion, nombre, precio)VALUES ({c}, {d}, {n}, {p})".format(
-            c=categoria, d=descripcion, n=nombre, p=precio))
+        cur.execute("INSERT INTO platillo(categoria, descripcion, nombre, precio) VALUE(%s,%s,%s,%s)", (categoria, descripcion, nombre, precio))
+        db.commit()
         return jsonify({'status': 'success'}), 200
     return jsonify({'status': 'Incorrect input'}), 401
 
+@app.route('/api/POST/cliente', methods=['POST'])
+def post_cliente():
+    data = request.get_json()
+    correo = data.get('correo')
+    clave = data.get('clave')
+    direccion = data.get('direccion')
+    nombre = data.get('nombre')
+    celular = data.get('celular')
+    if (validateNonVoidInput(correo) and validateNonVoidInput(clave) and validateNonVoidInput(direccion) and validateNonVoidInput(nombre) and validateNonVoidInput(celular)):
+        cur.execute("INSERT INTO cliente (correo, clave, direccion, nombre, celular)VALUES (%s,%s,%s,%s,%s)",
+                    (correo, clave, direccion, nombre, celular))
+        db.commit()
+        return jsonify({'status': 'success'}), 200
+    return jsonify({'status': 'Incorrect input'}), 401
+
+
+def post_pedido():
+    data = request.get_json()
+    fecha = data.get('fecha')
+    id_platillo = data.get('id_platillo')
+    id_cliente = data.get('id_cliente')
+    if (validateNonVoidInput(fecha) and validateNonVoidInput(id_platillo) and validateNonVoidInput(id_cliente)):
+        cur.execute("INSERT INTO pedidos (fecha, id_platillo, id_cliente)VALUES (%s,%s,%s)",
+                    (fecha, id_platillo, id_cliente))
+        db.commit()
+        return jsonify({'status': 'success'}), 200
+    return jsonify({'status': 'Incorrect input'}), 401
 
 @app.route('/api/admin/login', methods=['POST'])
 def admin_login():
@@ -71,6 +114,13 @@ def admin_login():
     else:
         return jsonify({'status': 'failure'}), 401
 
+@app.route('/api/REM/platillo', methods=['DELETE'])
+def remove_platillo():
+    data = request.get_json()
+    nombre=data.get('nombre')
+    cur.execute("DELETE FROM platillo WHERE nombre=%s",(nombre,))
+    db.commit()
+    return jsonify({'status':'success'}), 200
 
 if __name__ == '__main__':
     app.run(debug=True)
