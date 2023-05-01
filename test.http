@@ -1,0 +1,24 @@
+GET http://3.85.102.147:5000/api/GET/platillo
+###
+GET http://3.85.102.147:5000/api/GET/pedido
+###
+GET http://3.85.102.147:5000/api/GET/cliente
+
+###
+POST http://3.85.102.147:5000/api/POST/platillo
+Content-Type: application/json
+
+{
+    "categoria": "CC",
+    "descripcion": "vsc_test",
+    "nombre":"vsc_test_n",
+    "precio":"12"
+}
+###
+
+DELETE http://localhost:5000/api/REM/platillo
+Content-Type: application/json
+
+{
+    "nombre":"Jugo Fresco"
+}
