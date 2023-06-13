@@ -6,7 +6,7 @@ import mysql.connector
 import yaml
 
 
-db_data = yaml.load(open('remote.yaml'), Loader=yaml.SafeLoader)
+db_data = yaml.load(open('db.yaml'), Loader=yaml.SafeLoader)
 static_dir = os.path.abspath('client/dist')
 app = Flask(__name__, static_folder=static_dir, static_url_path='/')
 # TODO: Change cors permissions before deploying
@@ -80,14 +80,16 @@ def post_platillos():
 @app.route('/api/PUT/platillo', methods=['PUT'])
 def update_platillo():
     data = request.get_json()
-    _id = data.get('ID')
+    _id = data.get('id')
     nombre = data.get('nombre')
     descripcion = data.get('descripcion')
     categoria = data.get('categoria')
     precio = data.get('precio')
+    print(_id)
     cur.execute("UPDATE platillo SET nombre=%s, descripcion=%s, categoria=%s, precio=%s WHERE ID=%s",
                 (nombre, descripcion, categoria, precio, _id))
-
+    db.commit()
+    return jsonify({'status':'success'}), 200
 
 @app.route('/api/POST/cliente', methods=['POST'])
 def post_cliente():
@@ -136,7 +138,7 @@ def admin_login():
 def remove_platillo():
     data = request.get_json()
     nombre = data.get("nombre")
-    cur.execute("DELETE FROM platillo WHERE nombre=%s", (nombre,))
+    cur.execute("DELETE FROM platillo WHERE ID=%s", (nombre,))
     db.commit()
     return jsonify({'status': 'success'}), 200
 

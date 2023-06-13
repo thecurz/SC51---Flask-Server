@@ -1,4 +1,4 @@
-mysql_host: '54.243.4.6'
+mysql_host: '44.201.235.110'
 mysql_user: 'remote'
 mysql_password: 'password1331#'
 mysql_db: 'restaurante'

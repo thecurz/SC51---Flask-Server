@@ -234,9 +234,9 @@ function RemoverPlatilloForm() {
                     <input
                         className='input-area'
                         type="text"
-                        id="correo"
+                        id="id"
                         value={nombre}
-                        placeholder='Nombre del platillo'
+                        placeholder='Id del platillo'
                         onChange={(e) => setNombre(e.target.value)}
                     />
                 </div>
